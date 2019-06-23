@@ -11,7 +11,7 @@ string **sourceFolder** = Default: current folder. Folder where the original fil
 
 string **destFolder** = (Required) Folder where the copied files resides.
 
-string **sourceMask** = Default: "*.*". Mask to apply for filtering. This can be a file name or use Get-ChildItem wildcards.
+string **sourceMask** = Default: "\*.\*". Mask to apply for filtering. This can be a file name or use Get-ChildItem wildcards.
 
 ### Sample
 
