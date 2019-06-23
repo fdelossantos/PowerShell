@@ -16,5 +16,5 @@ string **sourceMask** = Default: "\*.\*". Mask to apply for filtering. This can 
 ### Sample
 
 ```
-Test-CopiedFiles -destFolder "F:\Backup\" -sourceMask "\*.vh\*"
+Test-CopiedFiles -destFolder "F:\Backup\" -sourceMask "*.vh*"
 ```
