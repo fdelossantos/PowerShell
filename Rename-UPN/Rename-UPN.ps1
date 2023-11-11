@@ -1,13 +1,13 @@
 ﻿param (
+    [Parameter(Mandatory)]
     [String]$DominioOriginal, 
+    [Parameter(Mandatory)]
     [String]$NuevoDominio,
+    [Parameter(Mandatory)]
     [String]$SearchBase
     )
 
 Import-Module ActiveDirectory
-
-#$DominioOriginal = "@asw.ort.edu.uy"
-#$SearchBase = "OU=Estructura 2,DC=asw,DC=ort,DC=edu,DC=uy"
 
 # Obtener todos los usuarios cuyo UPN termine en el dominio original
 
