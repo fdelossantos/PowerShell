@@ -1,8 +1,9 @@
-﻿param(
+﻿param(    
+    [Parameter(Mandatory)]
     [string]$RutaSalida
 )
 
-# Importar el módulo de Azure AD
+# Importar el módulo de Azure AD 
 Import-Module AzureAD
 
 # Conectar a Azure AD
