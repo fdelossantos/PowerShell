@@ -1,0 +1,12 @@
+{
+    "OrganizationName": "something.onmicrosoft.com",
+    "Application": "123412345-ae17-9514-8521-83cd16f1234",
+    "Tumbprint": "75D8F21C5BEA1F1F08DF11710FA098F460EAFAC4",
+    "AzureTenant": "12341234-1452-7854-9632-6974aaaafb0f",
+    "resourceGroupName": "OWA-RG",
+    "storageAccName": "owastorage01",
+    "ContainerName": "signatures",
+    "strTemplatePath": "C:\\Signatures\\Templates",
+    "strSignaturesPath": "C:\\Signatures",
+    "emailDomain": "example.com"
+}
