@@ -53,7 +53,7 @@
 	
 	TASK Scheduler
 	%SystemRoot%\system32\WindowsPowerShell\v1.0\powershell.exe
-	-executionpolicy bypass C:\Mazars\Scripts\owa-signatures.ps1
+	-executionpolicy bypass C:\Scripts\owa-signatures.ps1
 #>
 
 <#
