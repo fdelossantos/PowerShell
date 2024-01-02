@@ -1,0 +1,10 @@
+{
+    "cfToken": "709438u0943709v3090943304rnmcv03vsd",
+    "company": "My Company",
+    "domain": "example.com",
+    "contact": "me@example.com",
+    "basePathLog": "C:\\Scripts\\Logs",
+    "SmtpServer": "example-com.mail.protection.outlook.com",
+    "MailContact": ["Monitoring <monitoring@example.com>","Support <support@example.com>"],
+    "MailFrom": "Server in My Company <webserver@example.com>"
+}
