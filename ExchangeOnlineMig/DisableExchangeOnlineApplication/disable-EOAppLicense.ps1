@@ -26,3 +26,17 @@ $addLicenses = @(
 foreach ($usuario in $usuarios) { 
     Set-MgUserLicense -UserId $usuario.ObjectId -AddLicenses $addLicenses -RemoveLicenses @()
 }
+
+# Habilitar nuevamnete la licencia completa
+$completados = Get-MigrationUser | where {$_.Batch -ne 'Pioneros'}
+$EmsSku = Get-MgSubscribedSku -All | Where SkuPartNumber -eq 'O365_BUSINESS_PREMIUM'
+$addLicenses = @(
+  @{SkuId = $EmsSku.SkuId
+    DisabledPlans = $null
+  }
+  )
+$licenciados = Get-MsolUser -All | where {$_.Licenses.AccountSkuId -contains 'reseller-account:O365_BUSINESS_PREMIUM'}
+$licenciados | where { $_.UserPrincipalName -in $completados.Identity } | foreach { Set-MgUserLicense -UserId $_.ObjectId -AddLicenses $addLicenses -RemoveLicenses @() }
+
+# Controlar cómo avanzan las sincronizaciones
+Get-MigrationUser | where {$_.Status -eq 'Syncing'} | select Identity,SyncedItemCount,EstimatedTotalCount, @{ label="Resto"; expression={$_.EstimatedTotalCount - $_.SyncedItemCount}}, @{ label='Porcentaje'; expression={[Math]::Round($_.SyncedItemCount / $_.EstimatedTotalCount * 100)}} | ft
