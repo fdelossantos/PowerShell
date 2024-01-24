@@ -1,20 +1,26 @@
 # PowerShell
 My PowerShell functions to help me in my day by day
 
-## Test-CopiedFiles
+ADDS - Active Directory Domain Services
 
-This cmdlet helps the user to check if the copied files to another medium (like an external drive) has been copied without errors.
+AzWebApp - Azure Web App
 
-### Parameters
+Certificates
 
-string **sourceFolder** = Default: current folder. Folder where the original files resides.
+EntraADConnect - Azure AD Connect - Microsoft Entra ID
 
-string **destFolder** = (Required) Folder where the copied files resides.
+ExchangeOnline - Exchange Online
 
-string **sourceMask** = Default: "\*.\*". Mask to apply for filtering. This can be a file name or use Get-ChildItem wildcards.
+ExchangeOnlineMig - Exchange Online Migration
 
-### Sample
+ExchangeServer - Exchange Server
 
-```
-Test-CopiedFiles -destFolder "F:\Backup\" -sourceMask "*.vh*"
-```
+FileServer - Windows File Services
+
+Hyper-V - Microsoft Hyper-V
+
+IIS - Internet Information Services
+
+SharePoint - SharePoint Server y SharePoint Online
+
+StringFunctions - String Functions
