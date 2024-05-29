@@ -1,6 +1,8 @@
 <#
 USAGE: 
 Enable-ArchivingToUser -Identity federicod -MRMPolicyName "Company MRM Policy" -ArchiveName = "My Archive" -MonitorTimes 10
+
+URL: https://github.com/fdelossantos/PowerShell/blob/master/ExchangeOnline/Enable-ArchivingToUser.ps1
 #>
 
 param(
