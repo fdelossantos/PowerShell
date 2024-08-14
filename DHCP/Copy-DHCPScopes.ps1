@@ -9,9 +9,6 @@ param(
 #   * Exclusions
 #   * Reservations
 # Run in origin server and copy to the server in the param $destino
-# uncomment lines 13 and 38 to use a filter
-
-# TODO: parameterize filter :-)
 
 $scopes = Get-DhcpServerv4Scope
 
