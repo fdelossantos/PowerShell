@@ -28,7 +28,7 @@ $sourceOUs = Get-NonDefaultOUs -Domain $sourceDomain
 $ouList = $sourceOUs | Select-Object -ExpandProperty DistinguishedName
 
 # Mostrar la lista de OUs al usuario
-Write-Host "Se crearán las siguientes OUs en el dominio $targetDomain:" -ForegroundColor Yellow
+Write-Host "Se crearán las siguientes OUs en el dominio $($targetDomain):" -ForegroundColor Yellow
 $ouList | ForEach-Object { Write-Host $_ }
 
 # Confirmación del usuario
