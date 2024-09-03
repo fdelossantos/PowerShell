@@ -1,17 +1,5 @@
-# Crea un script de powershell que acepte como parámetro un nombre de usuario, un dominio de origen y un dominio de destino. Estos parámetros son obligatorios.
-# Los dominios son FQDN de dominios de Active Directory.
-# El script dejará un log con las acciones realizadas. El nombre del log tendrá el formato "Migration attempt $username yyyy-MM-dd hhmmss.log"
-# El script conecta al primero dominio, de origen, y busca el usuario de Activ Directory. Se usará el valor de SID para los siguientes pasos.
-# Luego conecta al segundo dominio, de destino, y obtiene el usuario con el mismo nombre usado anteriormente. Se usará el SID en los siguientes pasos.
-# En el log se almacenará la salida estándar de los comandos Get-ADUser para esos usuarios.
-# A continuación, el script se conecta a un servidor SQL Server llamado AXDEV01 y a la base de datos de nombre AXDB; estos valores son parámetros opcionales.
-# En la tabla USERINFO modificará 2 campos: el campo SID y el campo NETWORKDOMAIN para el usuario, cuyo valor está en el campo ID, el cual es clave primaria de la tabla.
-# La modificación consiste en cambiar el SID original por el nuevo y el dominio original por el nuevo.
-# El script validará primero que el SID registrado en la tabla sea el mismo que el de origen. En caso contrario validará si el usuario ya estaba modificado o si se encontró un SID no reconocido.
-# Cualquiera sea el resultado de la validación, se registrará en el log.
-# En caso de que las validaciones sean superadas, el script registrará la sentencia SQL a realizar en el log y además dejará registrada la sentencia para la vuelta atrás.
-# Luego del registro procederá a la ejecución del UPDATE y mostrará en pantalla el resultado de la ejecución y además registrará en el log.
-
+# Script que migra el SID de un usuario que se movió con ADMT en una migración de dominio.
+# 
 param (
     [Parameter(Mandatory=$true)]
     [string]$username,
@@ -110,3 +98,19 @@ try {
 }
 
 Write-Log "Migración completada."
+
+
+# Prompt de ChatGPT:
+# Crea un script de powershell que acepte como parámetro un nombre de usuario, un dominio de origen y un dominio de destino. Estos parámetros son obligatorios.
+# Los dominios son FQDN de dominios de Active Directory.
+# El script dejará un log con las acciones realizadas. El nombre del log tendrá el formato "Migration attempt $username yyyy-MM-dd hhmmss.log"
+# El script conecta al primero dominio, de origen, y busca el usuario de Activ Directory. Se usará el valor de SID para los siguientes pasos.
+# Luego conecta al segundo dominio, de destino, y obtiene el usuario con el mismo nombre usado anteriormente. Se usará el SID en los siguientes pasos.
+# En el log se almacenará la salida estándar de los comandos Get-ADUser para esos usuarios.
+# A continuación, el script se conecta a un servidor SQL Server llamado AXDEV01 y a la base de datos de nombre AXDB; estos valores son parámetros opcionales.
+# En la tabla USERINFO modificará 2 campos: el campo SID y el campo NETWORKDOMAIN para el usuario, cuyo valor está en el campo ID, el cual es clave primaria de la tabla.
+# La modificación consiste en cambiar el SID original por el nuevo y el dominio original por el nuevo.
+# El script validará primero que el SID registrado en la tabla sea el mismo que el de origen. En caso contrario validará si el usuario ya estaba modificado o si se encontró un SID no reconocido.
+# Cualquiera sea el resultado de la validación, se registrará en el log.
+# En caso de que las validaciones sean superadas, el script registrará la sentencia SQL a realizar en el log y además dejará registrada la sentencia para la vuelta atrás.
+# Luego del registro procederá a la ejecución del UPDATE y mostrará en pantalla el resultado de la ejecución y además registrará en el log.
