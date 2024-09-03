@@ -27,11 +27,11 @@ $paramSet = $PSCmdlet.ParameterSetName
 
 if ($paramSet -eq 'Multiple') {
     Write-Output "Iniciando la migración para el usuario: $user"
-    ADMT USER /includefile:"$userListFilePath" /SD:"$sourceDomain" /TD:"$destinationDomain" /TO:"$targetOU" /migratesids:YES /passwordoption:copy /passwordserver:"$passwordServer" /disableoption:targetsameassource /migrategroups:yes /conflictoptions:migrate
+    ADMT USER /includefile:"$userListFilePath" /SD:"$sourceDomain" /TD:"$destinationDomain" /TO:"$targetOU" /migratesids:YES /passwordoption:copy /passwordserver:"$passwordServer" /disableoption:targetsameassource /migrategroups:yes /conflictoptions:merge
     Write-Output "Migración completada para múltiples usuarios."
 }
 else {
     Write-Output "Iniciando la migración para el usuario: $userName"
-    ADMT USER /N "$userName" /SD:"$sourceDomain" /TD:"$destinationDomain" /TO:"$targetOU" /migratesids:YES /passwordoption:copy /passwordserver:"$passwordServer" /disableoption:targetsameassource /migrategroups:yes /conflictoptions:migrate
+    ADMT USER /N "$userName" /SD:"$sourceDomain" /TD:"$destinationDomain" /TO:"$targetOU" /migratesids:YES /passwordoption:copy /passwordserver:"$passwordServer" /disableoption:targetsameassource /migrategroups:yes /conflictoptions:merge
     Write-Output "Migración completada para el usuario: $userName"
 }
