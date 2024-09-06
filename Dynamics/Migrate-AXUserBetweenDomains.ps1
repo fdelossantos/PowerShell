@@ -69,29 +69,31 @@ try {
         Write-Log "SID en la base de datos: $currentSID"
         Write-Log "Dominio en la base de datos: $currentDomain"
 
-        if ($currentSID -eq $sourceUserSID) {
-            # Preparar las sentencias SQL
-            $updateQuery = "UPDATE USERINFO SET SID = '$destinationUserSID', NETWORKDOMAIN = '$destinationDomain' WHERE ID = '$username'"
-            $rollbackQuery = "UPDATE USERINFO SET SID = '$sourceUserSID', NETWORKDOMAIN = '$sourceDomain' WHERE ID = '$username'"
 
-            Write-Log "Sentencia SQL de actualización: $updateQuery"
-            Write-Log "Sentencia SQL de rollback: $rollbackQuery"
-
-            # Ejecutar la sentencia de actualización
-            $command.CommandText = $updateQuery
-            $result = $command.ExecuteNonQuery()
-
-            Write-Log "Resultado de la ejecución del UPDATE: $result"
-        } elseif ($currentSID -eq $destinationUserSID) {
-            Write-Log "El SID en la base de datos ya es el SID del dominio de destino. No se requiere ninguna acción."
-        } else {
-            Write-Log "El SID en la base de datos no coincide con el SID de origen ni con el SID de destino. Acción no reconocida."
-        }
     } else {
         Write-Log "No se encontró el usuario en la base de datos."
     }
-
     $reader.Close()
+
+    if ($currentSID -eq $sourceUserSID) {
+        # Preparar las sentencias SQL
+        $updateQuery = "UPDATE USERINFO SET SID = '$destinationUserSID', NETWORKDOMAIN = '$destinationDomain' WHERE ID = '$username'"
+        $rollbackQuery = "UPDATE USERINFO SET SID = '$sourceUserSID', NETWORKDOMAIN = '$sourceDomain' WHERE ID = '$username'"
+
+        Write-Log "Sentencia SQL de actualización: $updateQuery"
+        Write-Log "Sentencia SQL de rollback: $rollbackQuery"
+
+        # Ejecutar la sentencia de actualización
+        $command.CommandText = $updateQuery
+        $result = $command.ExecuteNonQuery()
+
+        Write-Log "Resultado de la ejecución del UPDATE: $result"
+    } elseif ($currentSID -eq $destinationUserSID) {
+        Write-Log "El SID en la base de datos ya es el SID del dominio de destino. No se requiere ninguna acción."
+    } else {
+        Write-Log "El SID en la base de datos no coincide con el SID de origen ni con el SID de destino. Acción no reconocida."
+    }
+
     $connection.Close()
 } catch {
     Write-Log "Error durante la conexión o ejecución en SQL Server: $_"
