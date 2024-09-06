@@ -1,44 +1,43 @@
 [CmdletBinding()]
 param (
-    [Parameter(Mandatory=$true)]
-    [string]$Folder
+    [Parameter(Mandatory=$false)]
+    [string]$Folder,
+    [Parameter(Mandatory=$false)]
+    [string]$OldDomain = "GMTR",
+    [Parameter(Mandatory=$false)]
+    [string]$NewDomain = "FVMZES"
 )
 
-#$Folders = Get-childItem \\fsbcn01\Administracion -Recurse -Directory
+# $FolderBase = "\\fsbcn01\Administracion"
+$FolderBase = "\\10.32.2.254\ignacio_test"
 
-$Folder = \\fsbcn01\Administracion
+$Folders = Get-childItem $FolderBase -Recurse -Directory
 
-$acl = Get-Acl $Folder
-
-foreach ($ace in $acl) {
-    $newace = $ace.Access
-    $usuarioviejo = $ace.Access.IdentityReference
-
-    $user = $ace.Access.IdentityReference -replace "GMTR", "FVMZES"
-    $idRef = New-Object System.Security.Principal.NTAccount($user)
-
-    $newace.IdentityReference = $idRef
-
-    $acl.AddAccessRule($accessRule)
-}
-
-
-
-$permission1 = "Dominio\Domain Admins","Full Control", $InheritanceFlag, $PropagationFlag, $objType
-$accessRule1 = New-Object System.Security.AccessControl.FileSystemAccessRule $permission
 foreach ($TempFolder in $Folders)
 {
+    if ($TempFolder.BaseName -eq "lost+found") {
+        continue
+    }
     $Folder = $TempFolder.FullName
 
-    $acl = Get-Acl $Folder
-    
-    $permission1 = "Dominio\Domain Admins","Full Control", $InheritanceFlag, $PropagationFlag, $objType
-    $accessRule1 = New-Object System.Security.AccessControl.FileSystemAccessRule $permission1
-    $permission2 = "Dominio\UsuariosRegistros","Modify", $InheritanceFlag, $PropagationFlag, $objType
-    $accessRule2 = New-Object System.Security.AccessControl.FileSystemAccessRule $permission2
 
-    $acl.AddAccessRule($accessRule)
-    $acl.AddAccessRule($accessRule2)
+    $acl = Get-Acl $Folder
+
+    foreach ($ace in $acl) {
+        #$newace = $ace.Access
+        foreach ($rule in $ace.Access) {
+            $usuarioviejo = $rule.IdentityReference.Value
     
+            $user = $usuarioviejo -replace $OldDomain, $NewDomain
+            $idRef = New-Object System.Security.Principal.NTAccount($user)
+        
+            # $rule.IdentityReference = $idRef
+            $permission1 = $user,$rule.FileSystemRights, $rule.InheritanceFlags, $rule.PropagationFlags, $rule.AccessControlType
+            $newrule = New-Object System.Security.AccessControl.FileSystemAccessRule $permission1
+        
+            $acl.AddAccessRule($newrule)
+        }
+    
+    }
     Set-Acl $Folder $acl
-} 
+}
