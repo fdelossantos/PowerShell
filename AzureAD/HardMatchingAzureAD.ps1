@@ -1,5 +1,11 @@
-connect-AzureAD 
-$todos = Get-ADUser -Filter "*" -SearchBase "OU=UnidadOrg,DC=dominio,DC=com,DC=uy"
+[CmdletBinding()]
+param (
+    [Parameter(Mandatory=$true)]
+    [string]
+    $SearchBase
+)
+connect-AzureAD
+$todos = Get-ADUser -Filter "*" -SearchBase $SearchBase
 #$todos = @()
 #$todos += Get-ADUser -Identity "usuario1"
 #$todos += Get-ADUser -Identity "usuario2"
