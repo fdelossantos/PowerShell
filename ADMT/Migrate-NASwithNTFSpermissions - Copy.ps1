@@ -1,8 +1,3 @@
-# USAGE:
-# Migrate-NASwithNTFSpermissions.ps1 -FolderBase "E:\Apli" -OldDomain DOMAIN1 -NewDomain DOMAIN2 -TermDictionary .\migratentfstranslations.json
-#
-# Get-Content .\directories.txt | foreach { Migrate-NASwithNTFSpermissions.ps1 -FolderBase $_ -OldDomain DOMAIN1 -NewDomain DOMAIN2 -TermDictionary .\migratentfstranslations.json }
-
 [CmdletBinding()]
 param (
     [Parameter(Mandatory=$true)]
@@ -30,10 +25,9 @@ foreach ($ace in $acl) {
     foreach ($rule in $ace.Access) {
         $usuarioviejo = $rule.IdentityReference.Value
 
-        if ($usuarioviejo -eq "Todos" -or $usuarioviejo -eq "Everyone" -or $usuarioviejo `
-        -eq "BUILTIN\Administradores" -or $usuarioviejo -like "S-1-*" -or $usuarioviejo -eq "NT AUTHORITY\SYSTEM" -or $usuarioviejo -eq "CREATOR OWNER") {
-        continue
-    }
+        if ($usuarioviejo -eq "Todos" -or $usuarioviejo -eq "Everyone") {
+            continue
+        }
 
         $user = $usuarioviejo -replace $OldDomain, $NewDomain
         foreach ($key in $dict.PSObject.Properties.Name){
@@ -73,8 +67,7 @@ foreach ($TempFolder in $Folders)
     foreach ($ace in $acl) {
         foreach ($rule in $ace.Access) {
             $usuarioviejo = $rule.IdentityReference.Value
-            if ($usuarioviejo -eq "Todos" -or $usuarioviejo -eq "Everyone" -or $usuarioviejo `
-                -eq "BUILTIN\Administradores" -or $usuarioviejo -like "S-1-*" -or $usuarioviejo -eq "NT AUTHORITY\SYSTEM" -or $usuarioviejo -eq "CREATOR OWNER") {
+            if ($usuarioviejo -eq "Todos" -or $usuarioviejo -eq "Everyone") {
                 continue
             }
             $user = $usuarioviejo -replace $OldDomain, $NewDomain
