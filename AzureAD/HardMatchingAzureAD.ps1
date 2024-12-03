@@ -5,25 +5,24 @@ param (
     $SearchBase
 )
 connect-AzureAD
-$todos = Get-ADUser -Filter "*" -SearchBase $SearchBase
-#$todos = @()
-#$todos += Get-ADUser -Identity "usuario1"
-#$todos += Get-ADUser -Identity "usuario2"
+$allusers = Get-ADUser -Filter "*" -SearchBase $SearchBase
 
-$errores = @()
-foreach ($usuario in $todos) {
-    $ImmutableID = [system.convert]::ToBase64String(([guid]($usuario).ObjectGuid).ToByteArray())
-    $ennube = $null
-    $ennube = Get-AzureADUser -ObjectId $usuario.UserPrincipalName -ErrorAction SilentlyContinue
-    if ($ennube -eq $null){
-        Write-Host "No existe: $usuario.UserPrincipalName"
-        $errores += $usuario.UserPrincipalName
+$errors = @()
+foreach ($thisuser in $allusers) {
+    $guid = [guid]($thisuser).ObjectGuid
+    $ImmutableID = [system.convert]::ToBase64String(( $guid ).ToByteArray())
+    Write-Host "Immutable ID for $($thisuser.UserPrincipalName) [$guid]: $ImmutableID"
+    $oncloud = $null
+    $oncloud = Get-AzureADUser -ObjectId $thisuser.UserPrincipalName -ErrorAction SilentlyContinue
+    if ($null -eq $oncloud){
+        Write-Host "User not found: $($thisuser.UserPrincipalName)"
+        $errors += $thisuser.UserPrincipalName
     }
     else {
-        Set-AzureADUser -ObjectId $usuario.UserPrincipalName -ImmutableID $ImmutableID
-        Write-Host "Correcto: $($usuario.UserPrincipalName)"
+        Set-AzureADUser -ObjectId $thisuser.UserPrincipalName -ImmutableID $ImmutableID
+        Write-Host "Success: $($thisuser.UserPrincipalName)"
     }
     
  }
- Write-Host "Errores:"
- $errores
+ Write-Host "Errors:"
+ $errors
