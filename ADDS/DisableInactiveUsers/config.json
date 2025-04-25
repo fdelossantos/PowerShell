@@ -1,0 +1,10 @@
+[{
+    "OU": ["OU=Company,DC=example,DC=com","OU=Users,DC=example,DC=com"],
+    "Emails": ["pablo@dominio.com","otro@dominio.com"],
+    "AlertLeftDays": 7,
+    "DisableMaxDays": 30,
+    "EmailFrom": "",
+    "TenantId": "",
+    "ClientId": "",
+    "ClientSecret": ""
+}]
