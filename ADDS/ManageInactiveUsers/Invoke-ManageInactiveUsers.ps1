@@ -139,6 +139,8 @@ foreach ($config in $configs) {
     } Catch {
         Write-EventLog -LogName Application -Source $EventSource -EntryType Error -EventId 3002 -Message "Error autenticando a Graph: $_"
         if ($PSBoundParameters['Debug']) { Debug-Log "Falló autenticación Graph: $_" }
+        $body = "<p>Error autenticando a Graph: $_</p>"
+        Send-GraphMail -Subject 'Resultado de revisión de cuentas' -BodyHtml $body
         Exit 3
     }
 
@@ -154,7 +156,9 @@ foreach ($config in $configs) {
         } Catch {
             Write-EventLog -LogName Application -Source $EventSource -EntryType Error -EventId 3003 -Message "Error consultando OU $($ou): $_"
             if ($PSBoundParameters['Debug']) { Debug-Log "Error consultando OU $($ou): $_" }
-	    Exit 4
+            $body = "<p>Error consultando OU $($ou): $_</p>"
+            Send-GraphMail -Subject 'Resultado de revisión de cuentas' -BodyHtml $body
+	        Exit 4
         }
     }
     $checkedCount = $allUsers.Count
