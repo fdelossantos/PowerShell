@@ -38,17 +38,19 @@ if (-not (Get-Module -ListAvailable -Name Microsoft.Graph)) {
   Write-Host "Instalando módulo Microsoft.Graph..." -ForegroundColor Yellow
   Install-Module Microsoft.Graph -Scope CurrentUser -Force
 }
-Import-Module Microsoft.Graph
+#Import-Module Microsoft.Graph
 
 # Conexión a Graph si hace falta
 try {
   $ctx = Get-MgContext
   if (-not $ctx) {
-    Connect-MgGraph -Scopes "Directory.Read.All","Application.Read.All","AppRoleAssignment.Read.All"
+    Connect-MgGraph -Scopes "Directory.Read.All","Application.Read.All","AppRoleAssignment.ReadWrite.All"
   }
 } catch {
-  Connect-MgGraph -Scopes "Directory.Read.All","Application.Read.All","AppRoleAssignment.Read.All"
+  Connect-MgGraph -Scopes "Directory.Read.All","Application.Read.All","AppRoleAssignment.ReadWrite.All"
 }
+
+$ctx = Get-MgContext
 
 # --- Función: resolver una Enterprise App (Service Principal) a partir de un identificador ---
 function Resolve-ServicePrincipal {
@@ -73,7 +75,11 @@ function Resolve-ServicePrincipal {
     try {
       $sp = Get-MgServicePrincipal -ServicePrincipalId $id -ErrorAction Stop
       if ($sp) { return $sp }
-    } catch { }
+    } catch { 
+      # Error
+      Write-Host $Error[0].Exception.Message -ForegroundColor DarkGray
+      return $null
+    }
   }
 
 #   # 2) Intentar como Application (client) ID
