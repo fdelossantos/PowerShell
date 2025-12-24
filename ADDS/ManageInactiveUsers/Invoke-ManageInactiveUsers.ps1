@@ -40,6 +40,9 @@ Param(
     [string]$ConfigFile
 )
 
+$uy = [System.Globalization.CultureInfo]'es-UY'
+
+
 # Inicialización de debug si corresponde
 if ($PSBoundParameters['Debug']) {
     $scriptName = $MyInvocation.MyCommand.Name
@@ -246,8 +249,23 @@ foreach ($config in $configs) {
     # 3) Deshabilitación
     if ($toDisable.Count -gt 0) {
         $toDisable | ForEach-Object { Disable-ADAccount -Identity $_.SamAccountName }
-        $body2 = "<h2>Reporte de deshabilitados por inactividad</h2>"
-        $body2 += $toDisable | ConvertTo-Html -Fragment -Property SamAccountName,Name,LastLogonDate | Out-String
+
+        # Proyectamos los datos ya formateados para el HTML
+        $rows =
+            $toDisable | Select-Object `
+                @{ Name = 'SamAccountName'     ; Expression = { $_.SamAccountName } },
+                @{ Name = 'DisplayName'        ; Expression = { $_.DisplayName } },   # O 'Name' si tu objeto lo trae así
+                @{ Name = 'LastLogonDate'      ; Expression = {
+                        if ($_.LastLogonDate) { $_.LastLogonDate.ToString('dd/MM/yyyy HH:mm', $uy) } else { '(sin datos)' }
+                } },
+                @{ Name = 'InactivityDays'     ; Expression = {
+                        # Opcional: mostrar con coma decimal según es-UY
+                        ([double]$_.InactivityDays).ToString('N2', $uy)
+                } }
+
+        $body2  = "<h2>Reporte de deshabilitados por inactividad</h2>"
+        $body2 += ($rows | ConvertTo-Html -Fragment | Out-String)
+
         Send-GraphMail -Subject 'Reporte de deshabilitados por inactividad' -BodyHtml $body2
     }
 
