@@ -1,4 +1,5 @@
 ExchangeOnline/OWA-Signatures/.configs.json
+ExchangeOnline/*.configs.json
 Certificates/.config.json
 Certificates/Renew-IISCFCertificate/.config.json
 *.config.json
