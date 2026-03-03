@@ -1,7 +1,7 @@
 # ==========================
 # CONFIGURACIÓN
 # ==========================
-$configs = Get-Content -Raw ".\Get-ReportMFAbyCountry.configs.json" | ConvertFrom-Json -ErrorAction Stop
+$configs = Get-Content -Raw "C:\Users\feder\source\repos\PowerShell\ExchangeOnline\GetReportMFAbyCountry.configs.json" | ConvertFrom-Json -ErrorAction Stop
 
 $TenantId = $configs.TenantId
 $ClientId=$configs.ClientId
@@ -128,7 +128,7 @@ foreach ($geo in $geoGroups) {
 Import-Module ExchangeOnlineManagement
 
 # Opción 1: App-only con la misma App Registration (necesita Exchange.ManageAsApp y Application Access Policy)
-Connect-ExchangeOnline -AppId $ClientId -CertificateThumbprint $CertThumbprint -Organization "vpccom.onmicrosoft.com" -ShowBanner:$false
+Connect-ExchangeOnline -AppId $ClientId -CertificateThumbprint $CertThumbprint -Organization "domain.onmicrosoft.com" -ShowBanner:$false
 
 # Opción 2: Delegado con cuenta administrativa (más simple si ya la usas)
 # Connect-ExchangeOnline -ShowBanner:$false

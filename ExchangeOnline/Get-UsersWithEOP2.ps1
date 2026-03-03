@@ -16,18 +16,16 @@ Write-Host "Usuarios con licencia EXCHANGEENTERPRISE encontrados:" $licensedUser
 # 2. Recorrer usuarios y obtener tamaño del buzón
 $result = @()
 
-foreach ($user in $licensedUsers) {
     # Puede haber usuarios con licencia pero sin buzón, así que controlamos el error
-    $stats = Get-ExoMailboxStatistics -Identity $user.UserPrincipalName -ErrorAction SilentlyContinue
+    # TotalItemSize es un tipo ByteQuantifiedSize
 
+foreach ($user in $licensedUsers) {
+    $stats = Get-ExoMailboxStatistics -Identity $user.UserPrincipalName -ErrorAction SilentlyContinue
     if (-not $stats) {
         continue
     }
-
-    # TotalItemSize es un tipo ByteQuantifiedSize
     $sizeBytes = $stats.TotalItemSize.Value.ToBytes()
     $sizeGB = [math]::Round($sizeBytes / 1GB, 2)
-
     if ($sizeGB -lt $SizeThresholdGB) {
         $result += [pscustomobject]@{
             DisplayName       = $user.DisplayName
@@ -38,6 +36,4 @@ foreach ($user in $licensedUsers) {
 }
 
 # 3. Mostrar solo los buzones con menos de 50 GB
-$result |
-    Sort-Object SizeGB |
-    Format-Table DisplayName, UserPrincipalName, SizeGB -AutoSize
+$result | Sort-Object SizeGB |  Format-Table DisplayName, UserPrincipalName, SizeGB -AutoSize
