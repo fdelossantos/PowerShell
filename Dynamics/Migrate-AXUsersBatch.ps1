@@ -10,9 +10,9 @@ param (
     [Parameter(Mandatory=$true)]
     [string]$destinationDomain,
 
-    [string]$sqlServer = "AXDEV01",
+    [string]$sqlServer = "SRV01",
 
-    [string]$database = "AXDB",
+    [string]$database = "DB01",
 
     [Parameter(Mandatory=$true)]
     [string]$migrationScriptPath

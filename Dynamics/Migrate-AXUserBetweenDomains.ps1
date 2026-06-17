@@ -10,9 +10,9 @@ param (
     [Parameter(Mandatory=$true)]
     [string]$destinationDomain,
 
-    [string]$sqlServer = "AXDEV01",
+    [string]$sqlServer = "SRV01",
 
-    [string]$database = "AXDB"
+    [string]$database = "DB01"
 )
 
 # Configuración del log
@@ -109,7 +109,7 @@ Write-Log "Migración completada."
 # El script conecta al primero dominio, de origen, y busca el usuario de Activ Directory. Se usará el valor de SID para los siguientes pasos.
 # Luego conecta al segundo dominio, de destino, y obtiene el usuario con el mismo nombre usado anteriormente. Se usará el SID en los siguientes pasos.
 # En el log se almacenará la salida estándar de los comandos Get-ADUser para esos usuarios.
-# A continuación, el script se conecta a un servidor SQL Server llamado AXDEV01 y a la base de datos de nombre AXDB; estos valores son parámetros opcionales.
+# A continuación, el script se conecta a un servidor SQL Server llamado SRV01 y a la base de datos de nombre DB01; estos valores son parámetros opcionales.
 # En la tabla USERINFO modificará 2 campos: el campo SID y el campo NETWORKDOMAIN para el usuario, cuyo valor está en el campo ID, el cual es clave primaria de la tabla.
 # La modificación consiste en cambiar el SID original por el nuevo y el dominio original por el nuevo.
 # El script validará primero que el SID registrado en la tabla sea el mismo que el de origen. En caso contrario validará si el usuario ya estaba modificado o si se encontró un SID no reconocido.

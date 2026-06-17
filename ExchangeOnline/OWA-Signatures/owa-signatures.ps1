@@ -28,8 +28,8 @@
 	Version:	v1.0
 	Date:		2020-12-02
 	
-	Authors:	Federico de los Santos - federico.delossantos@antatec.com
-				Ignacio Garcia - ignacio@antatec.com
+	Authors:	Federico
+				Ignacio
 					
 	Company:	Antares Techgroup
 	URL:		www.antatec.com

@@ -29,7 +29,6 @@ https://github.com/fdelossantos/PowerShell
 
 .NOTES
 Author: Federico de los Santos
-X:	https://twitter.com/federicod
 Github:	https://github.com/fdelossantos
 
 License:
